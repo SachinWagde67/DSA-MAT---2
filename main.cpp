@@ -9,26 +9,14 @@
 #define GREEN "\x1b[32m";
 #define T "\t\t\t\t\t\t\t";
 using namespace std;
+
 int SIDE; 
 int MINES;
 void Intro();
 void Rules();
 void Exit(); 
 
-bool isValid(int row, int col)
-{
-	return ((row >= 0) && (row < SIDE) && (col >= 0) && (col < SIDE));
-}
-
-bool isMine(int row, int col, char board[][25])
-{
-	if (board[row][col] == '*')
-		return true;
-	else
-		return false;
-}
-
-void getInput(int *x, int *y)
+void getUserInput(int *x, int *y)
 {
 	cout<<"Enter the coordinates (Row(x), Column(y)): ";
 	cin>>*x;
@@ -74,6 +62,19 @@ void printBoard(char myBoard[][25])
 		cout<<endl;
 	}
 	cout<<endl;
+}
+
+bool isValid(int row, int col)
+{
+	return ((row >= 0)&&(row < SIDE) && (col >= 0)&&(col < SIDE));
+}
+
+bool isMine(int row, int col, char board[][25])
+{
+	if (board[row][col] == '*')
+		return true;
+	else
+		return false;
 }
 
 int countMines(int row, int col, int mines[][2],  char realBoard[][25])
@@ -221,7 +222,7 @@ void placeMines(int mines[][2], char realBoard[][25])
 	}
 }
 
-void initialise(char realBoard[][25], char myBoard[][25])
+void drawBoard(char realBoard[][25], char myBoard[][25])
 {
 	srand(time(NULL));
 
@@ -232,12 +233,6 @@ void initialise(char realBoard[][25], char myBoard[][25])
 			myBoard[i][j] = realBoard[i][j] = '-';
 		}
 	}
-}
-
-void getMineLocation(char realBoard[][25])
-{
-	cout<<"Mine Locations are: ";
-	printBoard(realBoard);
 }
 
 void replaceMine(int row, int col, char board[][25])
@@ -265,16 +260,15 @@ void playGame()
 	int movesLeft = SIDE * SIDE - MINES, x, y;
 	int mines[99][2]; 
 
-	initialise (realBoard, myBoard);
+	drawBoard(realBoard, myBoard);
 
-	placeMines (mines, realBoard);
-	//getMineLocation(realBoard);
+	placeMines(mines, realBoard);
 	
 	int moveCount = 0;
 	while(!gameOver)
 	{
 		printBoard(myBoard);
-		getInput(&x, &y);
+		getUserInput(&x, &y);
 
 		if(moveCount == 0)
 		{
@@ -283,7 +277,7 @@ void playGame()
 				replaceMine (x, y, realBoard);
 			}
 		}
-		moveCount ++;
+		moveCount++;
 		gameOver = playUntil(myBoard, realBoard, mines, x, y, &movesLeft);
 
 		if ((!gameOver) && (movesLeft == 0))
@@ -297,7 +291,7 @@ void playGame()
 	}
 }
 
-void getInput()
+void getSides()
 {
 	cout<<CLRSCR;
 	cout<<"Enter number of sides for board: ";
@@ -385,7 +379,7 @@ void Intro()
 		cin>>choice;
 		if(choice == 1)
 		{
-			getInput();
+			getSides();
 			playGame();
 			break;
 		}
