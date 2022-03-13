@@ -6,3 +6,10 @@ It is a single-player puzzle game. The objective of the game is to clear a recta
 - Used the concepts of OOPS.
 - Used #define preprocessor directives for defining text colors.
 - Used array to create the board.
+
+
+![](Images/1.png)
+![](Images/2.png)
+![](Images/3.png)
+
+![](Images/4.png)
